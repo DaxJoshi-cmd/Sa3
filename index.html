@@ -1,0 +1,2787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sage Spark - Publications</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --crimson: #A41C30;
+            --gold: #C9A84C;
+            --dark: #1c1a18;
+            --bg: #faf9f7;
+            --white: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'EB Garamond', serif;
+            background: var(--bg);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 3px solid var(--gold);
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--crimson);
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--crimson);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--crimson);
+        }
+
+        .search-header {
+            position: relative;
+            min-width: 300px;
+        }
+
+        .search-header input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 50px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .search-header input:focus {
+            outline: none;
+            border-color: var(--crimson);
+            box-shadow: 0 0 0 3px rgb(164 28 48 / 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-500);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            transition: 0.2s;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--dark) 0%, #2d1b1a 100%);
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 0 auto 2rem;
+            padding: 0 2rem;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .breadcrumb a {
+            color: var(--crimson);
+            text-decoration: none;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            min-height: 80vh;
+        }
+
+        /* Scope Tabs */
+        .scope-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .scope-tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            color: var(--gray-600);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .scope-tab.active {
+            color: var(--crimson);
+            border-bottom-color: var(--crimson);
+        }
+
+        /* Main Search */
+        .main-search {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .main-search input {
+            width: 100%;
+            padding: 1rem 5rem 1rem 1.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 50px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1rem;
+        }
+
+        .main-search input:focus {
+            outline: none;
+            border-color: var(--crimson);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--crimson);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+        }
+
+        .filter-group {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-group h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-group .toggle {
+            background: none;
+            border: none;
+            color: var(--gray-500);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .filter-options {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .filter-options.open {
+            max-height: 400px;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            cursor: pointer;
+        }
+
+        .filter-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--crimson);
+        }
+
+        .filter-option label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .filter-count {
+            background: var(--gray-200);
+            color: var(--gray-600);
+            padding: 0.125rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        /* Filter Chips */
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-chip {
+            background: var(--crimson);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-family: 'Source Sans 3', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-chip button {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+
+        /* Results Toolbar */
+        .results-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .results-info {
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .results-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .sort-select, .per-page-select {
+            padding: 0.5rem 0.75rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--white);
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .view-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--gray-200);
+            background: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-size: 1.2rem;
+        }
+
+        .view-btn.active {
+            border-color: var(--crimson);
+            background: var(--crimson);
+            color: var(--white);
+        }
+
+        /* Article Cards */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .article-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-card:hover {
+            transform: translateX(8px);
+            border-left-color: var(--crimson);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .article-card.grid-view {
+            grid-column: span 1;
+            padding: 1.5rem;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .date {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .badge.type {
+            background: var(--crimson);
+            color: var(--white);
+        }
+
+        .badge.access-free { background: #10b981; color: var(--white); }
+        .badge.access-register { background: #f59e0b; color: var(--white); }
+        .badge.access-external { background: #3b82f6; color: var(--white); }
+
+        .bookmark-btn {
+            margin-left: auto;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-400);
+            transition: color 0.2s;
+        }
+
+        .bookmark-btn.active {
+            color: var(--gold);
+        }
+
+        .article-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+            color: var(--dark);
+        }
+
+        .article-title:hover {
+            color: var(--crimson);
+        }
+
+        .article-source {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .article-curated {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .abstract {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .abstract.expanded {
+            display: block;
+            -webkit-line-clamp: unset;
+        }
+
+        .read-more {
+            background: none;
+            border: none;
+            color: var(--crimson);
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .keyword {
+            background: var(--gray-100);
+            color: var(--dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .keyword:hover {
+            background: var(--crimson);
+            color: var(--white);
+        }
+
+        .citation {
+            background: var(--white);
+            border-left: 4px solid var(--gold);
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--crimson);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #8b1625;
+        }
+
+        .btn-secondary {
+            background: var(--gray-200);
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-300);
+        }
+
+        /* Grid View Compact */
+        .grid-view .abstract,
+        .grid-view .citation,
+        .grid-view .actions,
+        .grid-view .read-more,
+        .grid-view .keywords,
+        .grid-view .article-curated {
+            display: none;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 3rem 0;
+        }
+
+        .pagination-btn {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            background: var(--white);
+            color: var(--dark);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            border-color: var(--crimson);
+            background: var(--crimson);
+            color: var(--white);
+        }
+
+        .pagination-btn.active {
+            background: var(--crimson);
+            color: var(--white);
+            border-color: var(--crimson);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .page-num {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--gray-200);
+            background: var(--white);
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 8px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .page-num:hover {
+            border-color: var(--crimson);
+        }
+
+        .page-num.active {
+            background: var(--crimson);
+            color: var(--white);
+            border-color: var(--crimson);
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            min-height: 400px;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--crimson);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Modals */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 20px;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.8) translateY(20px);
+            transition: all 0.3s;
+            width: 90%;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--dark) 0%, #2d1b1a 100%);
+            color: var(--white);
+            padding: 2rem;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+
+        .modal-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--crimson);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .password-group {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray-500);
+        }
+
+        .error {
+            color: #ef4444;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 90%;
+            max-width: 800px;
+            height: 100vh;
+            background: var(--white);
+            box-shadow: -4px 0 20px rgba(0,0,0,0.3);
+            z-index: 3000;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .admin-panel.active {
+            right: 0;
+        }
+
+        .admin-header {
+            background: var(--crimson);
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-tabs {
+            display: flex;
+            background: var(--gray-100);
+        }
+
+        .admin-tab {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .admin-tab.active {
+            background: var(--white);
+            border-bottom: 3px solid var(--crimson);
+            color: var(--crimson);
+        }
+
+        .admin-content {
+            padding: 2rem;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .table th {
+            background: var(--gray-100);
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .status-published {
+            background: #10b981;
+            color: var(--white);
+        }
+
+        .status-draft {
+            background: #f59e0b;
+            color: var(--white);
+        }
+
+        .role-superadmin { background: var(--crimson); color: var(--white); }
+        .role-admin { background: #3b82f6; color: var(--white); }
+        .role-editor { background: var(--gold); color: var(--dark); }
+
+        .table-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* Analytics */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--crimson);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+        }
+
+        .chart {
+            background: var(--gray-100);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .chart-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--crimson), var(--gold));
+        }
+
+        /* Toasts */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: var(--white);
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            z-index: 4000;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: #10b981;
+        }
+
+        .toast.error {
+            background: #ef4444;
+        }
+
+        /* Admin Button */
+        .admin-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--crimson);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            z-index: 1500;
+            transition: all 0.2s;
+        }
+
+        .admin-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: var(--white);
+            margin-top: 5rem;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-tagline {
+            font-style: italic;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .footer-section a {
+            color: var(--gray-300);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-700);
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem;
+            color: var(--gray-400);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+                gap: 1rem;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .results-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .results-controls {
+                justify-content: space-between;
+            }
+
+            .admin-panel {
+                width: 100%;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Hide empty states */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-600);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Shake animation */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <svg viewBox="0 0 24 24"><path d="M12 2L13.09 8.26L22 9L17 14.74L18.18 21.5L12 17.77L5.82 21.5L7 14.74L2 9L10.91 8.26L12 2Z"/></svg>
+                Sage Spark
+            </a>
+            <nav class="nav">
+                <a href="#">Home</a>
+                <a href="#" class="active">Publications</a>
+                <a href="#">Topics</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+            <div class="search-header">
+                <svg class="search-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+                <input type="text" placeholder="Search articles and insights...">
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Sage Spark Publications</h1>
+            <p>Curated articles, insights, and knowledge — sourced from LinkedIn and beyond</p>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+        <a href="#">Home</a> &gt; <a href="#">Publications</a> &gt; Articles
+    </nav>
+
+    <main class="container">
+        <!-- Sidebar Filters -->
+        <aside class="sidebar">
+            <div class="filter-group">
+                <h3>Filters <button class="toggle">−</button></h3>
+                <div class="filter-chips" id="filterChips"></div>
+                <button class="btn btn-secondary" style="width: 100%; margin-bottom: 1rem;" id="clearFilters">Clear All Filters</button>
+            </div>
+
+            <div class="filter-group">
+                <h3>Content Type <button class="toggle">−</button></h3>
+                <div class="filter-options open">
+                    <div class="filter-option"><input type="checkbox" id="type-article" value="Article"><label for="type-article">Article <span class="filter-count">(0)</span></label></div>
+                    <div class="filter-option"><input type="checkbox" id="type-working" value="Working Paper"><label for="type-working">Working Paper <span class="filter-count">(0)</span></label></div>
+                    <div class="filter-option"><input type="checkbox" id="type-case" value="Case Study"><label for="type-case">Case Study <span class="filter-count">(0)</span></label></div>
+                    <div class="filter-option"><input type="checkbox" id="type-teaching" value="Teaching Note"><label for="type-teaching">Teaching Note <span class="filter-count">(0)</span></label></div>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h3>Topic <button class="toggle">−</button></h3>
+                <div class="filter-options open">
+                    <div class="filter-option"><input type="checkbox" id="topic-personal" value="Personal Development"><label for="topic-personal">Personal Development <span class="filter-count">(0)</span></label></div>
+                    <div class="filter-option"><input type="checkbox" id="topic-health" value="Health & Medicine"><label for="topic-health">Health & Medicine <span class="filter-count">(0)</span></label></div>
+                    <div class="filter-option"><input type="checkbox" id="topic-tech" value="Technology & AI"><label for="topic-tech">Technology & AI <span class="filter-count">(0)</span></label></div>
+                    <div class="filter-option"><input type="checkbox" id="topic-business" value="Business Strategy"><label for="topic-business">Business Strategy <span class="filter-count">(0)</span></label></div>
+                    <div class="filter-option"><input type="checkbox" id="topic-sports" value="Sports & Culture"><label for="topic-sports">Sports & Culture <span class="filter-count">(0)</span></label></div>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h3>Access Type <button class="toggle">−</button></h3>
+                <div class="filter-options open">
+                    <div class="filter-option"><input type="checkbox" id="access-free" value="Free to Read"><label for="access-free">Free to Read <span class="filter-count">(0)</span></label></div>
+                    <div class="filter-option"><input type="checkbox" id="access-register" value="Register to Read"><label for="access-register">Register to Read <span class="filter-count">(0)</span></label></div>
+                    <div class="filter-option"><input type="checkbox" id="access-external" value="External Link"><label for="access-external">External Link <span class="filter-count">(0)</span></label></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Scope Tabs -->
+            <div class="scope-tabs">
+                <button class="scope-tab">All Sage Spark</button>
+                <button class="scope-tab active">Featured Articles</button>
+            </div>
+
+            <!-- Main Search -->
+            <div class="main-search">
+                <input type="text" id="mainSearch" placeholder="Search articles and insights...">
+                <button class="search-btn">Search</button>
+            </div>
+
+            <!-- Results Toolbar -->
+            <div class="results-toolbar">
+                <div class="results-info" id="resultsInfo">Filter Results: <span id="resultsCount">0</span></div>
+                <div class="results-controls">
+                    <select class="sort-select" id="sortSelect">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="title">A-Z Title</option>
+                        <option value="relevance">Relevance</option>
+                    </select>
+                    <select class="per-page-select" id="perPageSelect">
+                        <option value="10">10 per page</option>
+                        <option value="25">25 per page</option>
+                        <option value="50">50 per page</option>
+                    </select>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid" title="Grid View">📋</button>
+                        <button class="view-btn" data-view="list" title="List View">📱</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Articles -->
+            <div id="articlesContainer" class="loading">
+                <div class="spinner"></div>
+                <p>Loading publications...</p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination" style="display: none;">
+                <button class="pagination-btn" id="prevPage">← Prev</button>
+                <div class="page-numbers" id="pageNumbers"></div>
+                <button class="pagination-btn" id="nextPage">Next →</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Detail Modal -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <button class="close-btn" id="closeDetail">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div style="text-align: center; padding: 2rem;">
+                <svg style="width: 64px; height: 64px; fill: var(--crimson); margin-bottom: 1rem;" viewBox="0 0 24 24"><path d="M12 2L13.09 8.26L22 9L17 14.74L18.18 21.5L12 17.77L5.82 21.5L7 14.74L2 9L10.91 8.26L12 2Z"/></svg>
+                <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 0.5rem;">Admin Login</h2>
+                <p style="color: var(--gray-600); margin-bottom: 2rem;">Sage Spark Staff Only</p>
+            </div>
+            <div style="padding: 0 2rem 2rem;">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-group">
+                        <input type="password" id="loginPassword" required>
+                        <button type="button" class="password-toggle" id="toggleLoginPassword">👁</button>
+                    </div>
+                </div>
+                <div id="loginError" class="error" style="display: none;"></div>
+                <button class="btn btn-primary" style="width: 100%;" id="loginBtn">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <div>
+                <h3 id="adminWelcome">Admin Panel</h3>
+            </div>
+            <div>
+                <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+                <button class="close-btn" id="closeAdmin" style="color: var(--white);">×</button>
+            </div>
+        </div>
+        <div class="admin-tabs" id="adminTabs">
+            <button class="admin-tab active" data-tab="upload">Upload Article</button>
+            <button class="admin-tab" data-tab="manage">Manage Articles</button>
+            <button class="admin-tab" data-tab="analytics">Analytics</button>
+            <button class="admin-tab" data-tab="admins" style="display: none;" id="adminsTab">Manage Admins</button>
+        </div>
+        <div class="admin-content">
+            <!-- Upload Tab -->
+            <div id="uploadTab">
+                <form id="articleForm">
+                    <div class="form-group">
+                        <label>Title *</label>
+                        <input type="text" id="articleTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Article URL *</label>
+                        <input type="url" id="articleUrl" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Source</label>
+                        <select id="articleSource">
+                            <option>LinkedIn</option>
+                            <option>UpSkill Newsletter</option>
+                            <option>Medium</option>
+                            <option>External</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Content Type</label>
+                        <select id="articleType" required>
+                            <option>Article</option>
+                            <option>Working Paper</option>
+                            <option>Case Study</option>
+                            <option>Teaching Note</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Topic</label>
+                        <select id="articleTopic">
+                            <option>Personal Development</option>
+                            <option>Health & Medicine</option>
+                            <option>Technology & AI</option>
+                            <option>Business Strategy</option>
+                            <option>Sports & Culture</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Abstract *</label>
+                        <textarea id="articleAbstract" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Keywords (comma-separated)</label>
+                        <input type="text" id="articleKeywords" placeholder="growth mindset, learning, motivation">
+                        <div id="keywordPreview" style="margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Access Type</label>
+                        <select id="articleAccess">
+                            <option>Free to Read</option>
+                            <option>Register to Read</option>
+                            <option>External Link</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" class="btn btn-primary" id="publishBtn">Publish Now</button>
+                        <button type="button" class="btn btn-secondary" id="saveDraftBtn">Save as Draft</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Manage Articles Tab -->
+            <div id="manageTab" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3>Manage Articles</h3>
+                    <input type="text" id="articleSearch" placeholder="Search articles..." style="padding: 0.5rem; border: 1px solid var(--gray-200); border-radius: 6px;">
+                </div>
+                <div id="articlesTableContainer" class="loading">
+                    <div class="spinner" style="width: 32px; height: 32px;"></div>
+                    <p>Loading articles...</p>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analyticsTab" style="display: none;">
+                <h3>Analytics Dashboard</h3>
+                <div class="analytics-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalPublished">0</div>
+                        <div class="stat-label">Published Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalDrafts">0</div>
+                        <div class="stat-label">Draft Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalAdmins">0</div>
+                        <div class="stat-label">Admin Accounts</div>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <h3>Content Type Breakdown</h3>
+                    <div id="typeChart"></div>
+                </div>
+                <div class="filter-group">
+                    <h3>Recently Added</h3>
+                    <div id="recentArticles"></div>
+                </div>
+                <button class="btn btn-primary" id="refreshAnalytics" style="width: 100%;">Refresh Analytics</button>
+            </div>
+
+            <!-- Manage Admins Tab -->
+            <div id="adminsTabContent" style="display: none;">
+                <h3>Manage Admin Accounts</h3>
+                <p style="color: var(--gray-600); margin-bottom: 2rem;">Only the Superadmin can manage admin accounts.</p>
+                
+                <!-- Add Admin Form -->
+                <div class="filter-group">
+                    <h4>Add New Admin</h4>
+                    <form id="addAdminForm">
+                        <div class="form-group">
+                            <label>New Username *</label>
+                            <input type="text" id="newUsername" required>
+                            <div id="usernameError" class="error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>New Password *</label>
+                            <div class="password-group">
+                                <input type="password" id="newPassword" required minlength="6">
+                                <button type="button" class="password-toggle" id="toggleNewPassword">👁</button>
+                            </div>
+                            <div id="passwordError" class="error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password *</label>
+                            <div class="password-group">
+                                <input type="password" id="confirmPassword" required>
+                                <button type="button" class="password-toggle" id="toggleConfirmPassword">👁</button>
+                            </div>
+                            <div id="confirmError" class="error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Role</label>
+                            <select id="newRole">
+                                <option value="admin">Admin</option>
+                                <option value="editor">Editor</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Admin</button>
+                    </form>
+                </div>
+
+                <!-- Admins Table -->
+                <div id="adminsTableContainer" class="loading">
+                    <div class="spinner" style="width: 32px; height: 32px;"></div>
+                    <p>Loading admins...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Button -->
+    <button class="admin-btn" id="adminBtn">⚙</button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <div class="footer-logo">Sage Spark</div>
+                <div class="footer-tagline">"Curated Knowledge. Sparked Minds."</div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#">Publications</a>
+                <a href="#">Topics</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h4>Topics</h4>
+                <a href="#">Personal Development</a>
+                <a href="#">Technology & AI</a>
+                <a href="#">Business Strategy</a>
+                <a href="#">Health & Medicine</a>
+            </div>
+            <div class="footer-section">
+                <h4>About</h4>
+                <a href="#">Our Mission</a>
+                <a href="#">Team</a>
+                <a href="#">Curated By</a>
+                <a href="#">UpSkill Newsletter Vol. 26, No. 2</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Sage Spark. All rights reserved.</p>
+            <p>Designed by Shivanshi Jesadiya, Dax Joshi & Pryanshi Bhatt</p>
+        </div>
+    </footer>
+
+    <script>
+        // === SUPABASE CONFIGURATION ===
+        // ⚠️ REPLACE WITH YOUR ACTUAL SUPABASE CREDENTIALS
+        const SUPABASE_URL = 'https://xrdluptgajjyezyeqyjf.supabase.co'
+        const SUPABASE_ANON_KEY = 'sb_publishable_6_t337oLxz2opN0XTI2UGg_6EAX2Pt2'
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+        // === STATE ===
+        let articles = []
+        let filteredArticles = []
+        let allArticles = []
+        let currentPage = 1
+        let itemsPerPage = 10
+        let currentSort = 'newest'
+        let currentView = 'grid'
+        let currentFilters = []
+        let session = null
+        let loginAttempts = 0
+        let failedLogins = 0
+
+        // Seed data
+        const seedArticles = [
+            {
+                title: "Growth Mindset: Developing Intelligence Through Effort and Persistence",
+                url: "https://www.linkedin.com/posts/growth-mindset",
+                source: "LinkedIn",
+                type: "Article",
+                topic: "Personal Development",
+                abstract: "A growth mindset is the belief that intelligence and abilities can be developed through effort, learning, and persistence. Students with this mindset are more likely to accept challenges, learn from mistakes, and stay motivated. This article explores practical strategies for cultivating a growth mindset in academic and professional settings, highlighting how embracing challenges leads to long-term success and resilience.",
+                keywords: "Growth Mindset,Learning,Student Development,Motivation,Persistence",
+                access: "Free to Read",
+                status: "published",
+                citation: "Growth Mindset. UpSkill Newsletter, Vol. 26, No. 2, 2025. Sourced via LinkedIn.",
+                curated_by: "Sage Spark Team",
+                created_by: "Sage_Spark"
+            },
+            {
+                title: "Preventive Healthcare Awareness: Habits That Keep You Healthy",
+                url: "https://www.linkedin.com/posts/preventive-healthcare",
+                source: "LinkedIn",
+                type: "Article",
+                topic: "Health & Medicine",
+                abstract: "Preventive healthcare awareness emphasizes the importance of maintaining good health by adopting healthy habits such as proper nutrition, regular exercise, and routine check-ups. This article discusses how individuals can proactively reduce the risk of chronic illness through lifestyle adjustments, early screening, and continuous self-monitoring, making prevention a daily practice rather than a reactive measure.",
+                keywords: "Preventive Healthcare,Nutrition,Exercise,Routine Check-ups,Wellness",
+                access: "Free to Read",
+                status: "published",
+                citation: "Preventive Healthcare Awareness. UpSkill Newsletter, Vol. 26, No. 2, 2025. Sourced via LinkedIn.",
+                curated_by: "Sage Spark Team",
+                created_by: "Sage_Spark"
+            },
+            {
+                title: "How Machines Learn to Classify Data",
+                url: "https://www.linkedin.com/posts/how-machines-learn-classify-data",
+                source: "LinkedIn",
+                type: "Article",
+                topic: "Technology",
+                abstract: "Machines learn to classify data by identifying patterns in large sets of information. Using algorithms, they are trained on labeled data to recognize differences and similarities between categories, such as distinguishing spam emails from important ones. This paper examines supervised learning techniques, the role of training datasets, and how classification models improve accuracy over time through iterative learning and feedback loops.",
+                keywords: "Machine Learning,Data Classification,Algorithms,Artificial Intelligence,Spam Detection",
+                access: "Free to Read",
+                status: "published",
+                citation: "How Machines Learn to Classify Data. UpSkill Newsletter, Vol. 26, No. 2, 2025. Sourced via LinkedIn.",
+                curated_by: "Sage Spark Team",
+                created_by: "Sage_Spark"
+            },
+            {
+                title: "Build in Public: Sharing Your Work, Progress and Learning Journey Openly",
+                url: "https://www.linkedin.com/posts/build-in-public",
+                source: "LinkedIn",
+                type: "Article",
+                topic: "Business Strategy",
+                abstract: "Build in public is an approach where individuals openly share their work, progress, and learning journey with others. This article explores why transparency in building products, startups, or personal projects creates community trust, accelerates feedback loops, and establishes authentic personal branding. Case studies of successful public builders demonstrate how radical openness leads to faster growth and stronger audiences.",
+                keywords: "Build in Public,Transparency,Entrepreneurship,Personal Branding,Community Learning",
+                access: "Free to Read",
+                status: "published",
+                citation: "Build in Public. UpSkill Newsletter, Vol. 26, No. 2, 2025. Sourced via LinkedIn.",
+                curated_by: "Sage Spark Team",
+                created_by: "Sage_Spark"
+            },
+            {
+                title: "OpenAI's Strategic Shift: Innovation, Safety, and Accessibility in the AI Era",
+                url: "https://www.linkedin.com/posts/openai-strategic-shift",
+                source: "LinkedIn",
+                type: "Case Study",
+                topic: "Technology & AI",
+                abstract: "OpenAI's strategic shift reflects how organizations adapt to rapid technological changes by focusing on innovation, safety, and accessibility. This case analyzes the pivotal decisions that redefined OpenAI's mission from a nonprofit research lab to a capped-profit company, examining how balancing commercial viability with responsible AI development shapes long-term organizational strategy and public trust.",
+                keywords: "OpenAI,AI Strategy,Innovation,Safety,Organizational Change,Accessibility",
+                access: "Register to Read",
+                status: "published",
+                citation: "OpenAI's Strategic Shift. UpSkill Newsletter, Vol. 26, No. 2, 2025. Sourced via LinkedIn.",
+                curated_by: "Sage Spark Team",
+                created_by: "Sage_Spark"
+            },
+            {
+                title: "The Boy Who Faced the World's Fastest Bowlers: How Sachin Tendulkar Became a Legend",
+                url: "https://www.linkedin.com/posts/sachin-tendulkar-legend",
+                source: "LinkedIn",
+                type: "Article",
+                topic: "Sports & Culture",
+                abstract: "At a very young age, a boy from Mumbai picked up a cricket bat and began a journey that would inspire millions. With dedication, discipline, and an unmatched love for the game, he quickly rose to become one of the greatest cricketers in the world. His records include being the first player to score 100 international centuries. He received the Padma Shri in 1999, Padma Vibhushan in 2008, and the Bharat Ratna in 2014, becoming the youngest recipient. This legendary figure is Sachin Tendulkar, the God of Cricket.",
+                keywords: "Sachin Tendulkar,Cricket,Leadership,Dedication,Bharat Ratna,Inspiration",
+                access: "Free to Read",
+                status: "published",
+                citation: "The Boy Who Faced the World's Fastest Bowlers. UpSkill Newsletter, Vol. 26, No. 2, 2025. Sourced via LinkedIn.",
+                curated_by: "Sage Spark Team",
+                created_by: "Sage_Spark"
+            },
+            {
+                title: "Free Certificate: Master Claude's Cowork Feature for Real-World Task Management",
+                url: "https://www.linkedin.com/posts/claude-cowork-certificate",
+                source: "LinkedIn",
+                type: "Teaching Note",
+                topic: "Technology & AI",
+                abstract: "A practical course that teaches you how to use Claude's Cowork feature to plan, execute, and manage real tasks using your own files and apps. This teaching note outlines the course structure, learning objectives, and step-by-step guidance for earning a free certificate by completing hands-on exercises. Students learn to automate workflows, manage documents, and integrate AI tools into daily productivity systems.",
+                keywords: "Claude AI,Cowork Feature,Free Certificate,Task Management,Productivity,AI Tools",
+                access: "External Link",
+                status: "published",
+                citation: "Free Certificate: Claude Cowork Feature. UpSkill Newsletter, Vol. 26, No. 2, 2025. Sourced via LinkedIn.",
+                curated_by: "Sage Spark Team",
+                created_by: "Sage_Spark"
+            }
+        ]
+
+        // === SUPABASE FUNCTIONS ===
+        async function fetchArticles() {
+            try {
+                showLoading()
+                const { data, error } = await supabase
+                    .from('articles')
+                    .select('*')
+                    .eq('status', 'published')
+                    .order('created_at', { ascending: false })
+                
+                if (error) throw error
+                
+                articles = data || []
+                filteredArticles = [...articles]
+                updateFilterCounts()
+                renderArticles()
+                hideLoading()
+            } catch (error) {
+                console.error('Error fetching articles:', error)
+                showError('Unable to load articles. Please check your connection and try again.')
+            }
+        }
+
+        async function fetchAllArticles() {
+            try {
+                const { data, error } = await supabase
+                    .from('articles')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                
+                if (error) throw error
+                allArticles = data || []
+                renderArticlesTable()
+                updateAnalytics()
+            } catch (error) {
+                console.error('Error fetching all articles:', error)
+                showToast('Failed to load articles', 'error')
+            }
+        }
+
+        async function insertArticle(article) {
+            const { data, error } = await supabase
+                .from('articles')
+                .insert([article])
+                .select()
+            return { data, error }
+        }
+
+        async function updateArticle(id, updates) {
+            const { data, error } = await supabase
+                .from('articles')
+                .update(updates)
+                .eq('id', id)
+                .select()
+            return { data, error }
+        }
+
+        async function deleteArticle(id) {
+            const { data, error } = await supabase
+                .from('articles')
+                .delete()
+                .eq('id', id)
+            return { data, error }
+        }
+
+        async function loginAdmin(username, password) {
+            const { data, error } = await supabase
+                .from('admins')
+                .select('*')
+                .ilike('username', username)
+                .eq('password', password)
+                .eq('is_active', true)
+                .single()
+            return { data, error }
+        }
+
+        async function fetchAdmins() {
+            const { data, error } = await supabase
+                .from('admins')
+                .select('*')
+                .order('added_on', { ascending: true })
+            return data || []
+        }
+
+        async function addAdmin(admin) {
+            const { data, error } = await supabase
+                .from('admins')
+                .insert([admin])
+                .select()
+            return { data, error }
+        }
+
+        async function deleteAdmin(id) {
+            const { data, error } = await supabase
+                .from('admins')
+                .delete()
+                .eq('id', id)
+            return { data, error }
+        }
+
+        async function resetAdminPassword(id, newPassword) {
+            const { data, error } = await supabase
+                .from('admins')
+                .update({ password: newPassword })
+                .eq('id', id)
+            return { data, error }
+        }
+
+        async function checkUsernameExists(username) {
+            const { data, error } = await supabase
+                .from('admins')
+                .select('username')
+                .ilike('username', username)
+            return data && data.length > 0
+        }
+
+        // === INIT ===
+        async function init() {
+            // Check for seed data
+            await checkAndSeedData()
+            
+            // Load session
+            loadSession()
+            
+            // Fetch articles
+            await fetchArticles()
+            
+            // Event listeners
+            setupEventListeners()
+        }
+
+        async function checkAndSeedData() {
+            try {
+                const { count } = await supabase
+                    .from('articles')
+                    .select('*', { count: 'exact', head: true })
+                
+                if (count === 0) {
+                    console.log('Seeding data...')
+                    for (const article of seedArticles) {
+                        await insertArticle(article)
+                    }
+                    showToast('Seed data loaded successfully!', 'success')
+                }
+            } catch (error) {
+                console.error('Error checking/seeding data:', error)
+            }
+        }
+
+        function loadSession() {
+            const saved = localStorage.getItem('sage_spark_session')
+            if (saved) {
+                session = JSON.parse(saved)
+                if (Date.now() - session.loginTime > 2 * 60 * 60 * 1000) { // 2 hours
+                    localStorage.removeItem('sage_spark_session')
+                    session = null
+                } else {
+                    document.getElementById('adminWelcome').textContent = `Welcome, ${session.username}!`
+                }
+            }
+        }
+
+        function saveSession(user) {
+            session = {
+                loggedIn: true,
+                username: user.username,
+                role: user.role,
+                loginTime: Date.now()
+            }
+            localStorage.setItem('sage_spark_session', JSON.stringify(session))
+        }
+
+        function clearSession() {
+            session = null
+            localStorage.removeItem('sage_spark_session')
+            localStorage.removeItem('bookmarks')
+        }
+
+        // === EVENT LISTENERS ===
+        function setupEventListeners() {
+            // Search
+            document.getElementById('mainSearch').addEventListener('input', debounce(filterArticles, 300))
+            document.querySelector('.search-btn').addEventListener('click', filterArticles)
+
+            // Filters
+            document.getElementById('clearFilters').addEventListener('click', clearAllFilters)
+            document.querySelectorAll('.filter-option input').forEach(input => {
+                input.addEventListener('change', updateFilters)
+            })
+
+            // Results controls
+            document.getElementById('sortSelect').addEventListener('change', updateSort)
+            document.getElementById('perPageSelect').addEventListener('change', updatePerPage)
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', toggleView)
+            })
+
+            // Pagination
+            document.getElementById('prevPage').addEventListener('click', () => changePage(-1))
+            document.getElementById('nextPage').addEventListener('click', () => changePage(1))
+
+            // Admin
+            document.getElementById('adminBtn').addEventListener('click', toggleAdminPanel)
+            document.getElementById('loginBtn').addEventListener('click', handleLogin)
+            document.getElementById('logoutBtn').addEventListener('click', logout)
+            document.getElementById('closeAdmin').addEventListener('click', closeAdminPanel)
+
+            // Modals
+            document.getElementById('closeDetail').addEventListener('click', closeDetailModal)
+            document.getElementById('loginModal').querySelector('.modal-content').addEventListener('click', e => e.stopPropagation())
+            document.getElementById('detailModal').addEventListener('click', closeDetailModal)
+
+            // Forms
+            document.getElementById('articleForm').addEventListener('submit', handlePublish)
+            document.getElementById('saveDraftBtn').addEventListener('click', () => handleSaveDraft('draft'))
+            document.getElementById('publishBtn').addEventListener('click', (e) => {
+                e.preventDefault()
+                handleSaveDraft('published')
+            })
+
+            document.getElementById('addAdminForm').addEventListener('submit', handleAddAdmin)
+
+            // Password toggles
+            document.getElementById('toggleLoginPassword').addEventListener('click', togglePasswordVisibility)
+            document.getElementById('toggleNewPassword').addEventListener('click', togglePasswordVisibility)
+            document.getElementById('toggleConfirmPassword').addEventListener('click', togglePasswordVisibility)
+
+            // Keywords preview
+            document.getElementById('articleKeywords').addEventListener('input', updateKeywordPreview)
+
+            // Admin tabs
+            document.getElementById('adminTabs').addEventListener('click', handleAdminTabClick)
+
+            // Escape key
+            document.addEventListener('keydown', handleEscapeKey)
+
+            // Article search
+            document.getElementById('articleSearch').addEventListener('input', debounce(renderArticlesTable, 300))
+        }
+
+        // === FILTERING & SORTING ===
+        function filterArticles() {
+            const searchTerm = document.getElementById('mainSearch').value.toLowerCase()
+            
+            filteredArticles = articles.filter(article => {
+                const matchesSearch = !searchTerm || 
+                    article.title.toLowerCase().includes(searchTerm) ||
+                    article.abstract.toLowerCase().includes(searchTerm) ||
+                    article.keywords.toLowerCase().includes(searchTerm)
+                
+                const matchesFilters = currentFilters.every(filter => {
+                    if (filter.type === 'type') return article.type === filter.value
+                    if (filter.type === 'topic') return article.topic === filter.value
+                    if (filter.type === 'access') return article.access === filter.value
+                    return true
+                })
+                
+                return matchesSearch && matchesFilters
+            })
+
+            sortArticles()
+            updatePagination()
+            renderArticles()
+        }
+
+        function updateFilters() {
+            currentFilters = []
+            document.querySelectorAll('.filter-option input:checked').forEach(input => {
+                currentFilters.push({
+                    type: input.id.includes('type') ? 'type' : 
+                          input.id.includes('topic') ? 'topic' : 'access',
+                    value: input.value
+                })
+            })
+
+            // Update chips
+            renderFilterChips()
+            filterArticles()
+        }
+
+        function clearAllFilters() {
+            document.querySelectorAll('.filter-option input').forEach(input => input.checked = false)
+            currentFilters = []
+            document.getElementById('mainSearch').value = ''
+            renderFilterChips()
+            filterArticles()
+        }
+
+        function sortArticles() {
+            const sortMap = {
+                newest: (a, b) => new Date(b.created_at) - new Date(a.created_at),
+                oldest: (a, b) => new Date(a.created_at) - new Date(b.created_at),
+                title: (a, b) => a.title.localeCompare(b.title)
+            }
+            
+            filteredArticles.sort(sortMap[currentSort] || sortMap.newest)
+        }
+
+        function updateSort() {
+            currentSort = document.getElementById('sortSelect').value
+            sortArticles()
+            renderArticles()
+        }
+
+        function updatePerPage() {
+            itemsPerPage = parseInt(document.getElementById('perPageSelect').value)
+            currentPage = 1
+            updatePagination()
+            renderArticles()
+        }
+
+        function updateFilterCounts() {
+            const counts = {
+                types: {},
+                topics: {},
+                access: {}
+            }
+
+            articles.forEach(article => {
+                counts.types[article.type] = (counts.types[article.type] || 0) + 1
+                counts.topics[article.topic] = (counts.topics[article.topic] || 0) + 1
+                counts.access[article.access] = (counts.access[article.access] || 0) + 1
+            })
+
+            updateCountElements(counts)
+        }
+
+        function updateCountElements(counts) {
+            document.querySelector('#type-article + label .filter-count').textContent = `(${counts.types['Article'] || 0})`
+            document.querySelector('#type-working + label .filter-count').textContent = `(${counts.types['Working Paper'] || 0})`
+            document.querySelector('#type-case + label .filter-count').textContent = `(${counts.types['Case Study'] || 0})`
+            document.querySelector('#type-teaching + label .filter-count').textContent = `(${counts.types['Teaching Note'] || 0})`
+            
+            document.querySelector('#topic-personal + label .filter-count').textContent = `(${counts.topics['Personal Development'] || 0})`
+            document.querySelector('#topic-health + label .filter-count').textContent = `(${counts.topics['Health & Medicine'] || 0})`
+            document.querySelector('#topic-tech + label .filter-count').textContent = `(${counts.topics['Technology & AI'] || 0})`
+            document.querySelector('#topic-business + label .filter-count').textContent = `(${counts.topics['Business Strategy'] || 0})`
+            document.querySelector('#topic-sports + label .filter-count').textContent = `(${counts.topics['Sports & Culture'] || 0})`
+            
+            document.querySelector('#access-free + label .filter-count').textContent = `(${counts.access['Free to Read'] || 0})`
+            document.querySelector('#access-register + label .filter-count').textContent = `(${counts.access['Register to Read'] || 0})`
+            document.querySelector('#access-external + label .filter-count').textContent = `(${counts.access['External Link'] || 0})`
+        }
+
+        // === RENDERING ===
+        function renderArticles() {
+            const container = document.getElementById('articlesContainer')
+            const start = (currentPage - 1) * itemsPerPage
+            const end = start + itemsPerPage
+            const pageArticles = filteredArticles.slice(start, end)
+
+            if (filteredArticles.length === 0) {
+                container.innerHTML = '<div class="empty-state">No articles found matching your criteria.</div>'
+                document.getElementById('pagination').style.display = 'none'
+                document.getElementById('resultsCount').textContent = '0'
+                return
+            }
+
+            container.innerHTML = pageArticles.map(article => createArticleCard(article)).join('')
+            
+            // Add event listeners to new cards
+            container.querySelectorAll('.article-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.bookmark-btn') && !e.target.closest('.btn')) {
+                        openDetailModal(article)
+                    }
+                })
+            })
+
+            container.querySelectorAll('.bookmark-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => toggleBookmark(e, article.id))
+            })
+
+            container.querySelectorAll('.keyword').forEach(keyword => {
+                keyword.addEventListener('click', (e) => filterByKeyword(e.target.textContent))
+            })
+
+            container.querySelectorAll('.read-more').forEach(btn => {
+                btn.addEventListener('click', (e) => toggleAbstract(e.target))
+            })
+
+            // Add fade-in animation
+            container.querySelectorAll('.article-card').forEach((card, i) => {
+                card.style.animationDelay = `${i * 0.05}s`
+                card.classList.add('fade-in')
+            })
+
+            document.getElementById('resultsCount').textContent = filteredArticles.length
+            updatePagination()
+        }
+
+        function createArticleCard(article) {
+            const isBookmarked = getBookmarks().includes(article.id)
+            const date = new Date(article.created_at).toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            })
+            const isGridView = currentView === 'grid'
+            const accessClass = `access-${article.access.toLowerCase().replace(/ /g, '-')}`
+
+            return `
+                <article class="article-card ${isGridView ? 'grid-view' : ''}">
+                    <div class="article-meta">
+                        <span class="date">${date}</span>
+                        <span class="badge type">${article.type}</span>
+                        <span class="badge ${accessClass}">${article.access}</span>
+                        <button class="bookmark-btn ${isBookmarked ? 'active' : ''}" data-id="${article.id}">⭐</button>
+                    </div>
+                    <h3 class="article-title">${article.title}</h3>
+                    <div class="article-source">Source: ${article.source}</div>
+                    ${!isGridView ? `<div class="article-curated">Curated by: ${article.curated_by}</div>` : ''}
+                    ${!isGridView ? `
+                        <div class="abstract" id="abstract-${article.id}">${article.abstract}</div>
+                        <button class="read-more">Read more</button>
+                    ` : ''}
+                    ${!isGridView ? `
+                        <div class="keywords">
+                            ${article.keywords.split(',').map(k => `<span class="keyword">${k.trim()}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                    ${!isGridView ? `
+                        <div class="citation">${article.citation}</div>
+                        <div class="actions">
+                            <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View Article →</a>
+                            <button class="btn btn-secondary" onclick="copyCitation('${article.citation.replace(/'/g, "\\'")}')">Cite This</button>
+                            <button class="btn btn-secondary" onclick="openRelatedModal('${article.topic}')">Related</button>
+                            ${article.access === 'Register to Read' ? '<button class="btn btn-secondary">Register to Read</button>' : ''}
+                        </div>
+                    ` : ''}
+                </article>
+            `
+        }
+
+        function renderFilterChips() {
+            const chipsContainer = document.getElementById('filterChips')
+            if (currentFilters.length === 0) {
+                chipsContainer.innerHTML = ''
+                return
+            }
+
+            chipsContainer.innerHTML = currentFilters.map(filter => `
+                <div class="filter-chip">
+                    ${filter.value}
+                    <button onclick="removeFilter('${filter.value}')">×</button>
+                </div>
+            `).join('')
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredArticles.length / itemsPerPage)
+            const pageNumbers = document.getElementById('pageNumbers')
+            const prevBtn = document.getElementById('prevPage')
+            const nextBtn = document.getElementById('nextPage')
+
+            if (totalPages <= 1) {
+                document.getElementById('pagination').style.display = 'none'
+                return
+            }
+
+            document.getElementById('pagination').style.display = 'flex'
+
+            let pagesHTML = ''
+            const maxVisible = 5
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2))
+            let endPage = Math.min(totalPages, startPage + maxVisible - 1)
+
+            if (endPage - startPage < maxVisible - 1) {
+                startPage = Math.max(1, endPage - maxVisible + 1)
+            }
+
+            if (startPage > 1) {
+                pagesHTML += `<a href="#" class="page-num" data-page="1">1</a>`
+                if (startPage > 2) pagesHTML += `<span>...</span>`
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pagesHTML += `<a href="#" class="page-num ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</a>`
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) pagesHTML += `<span>...</span>`
+                pagesHTML += `<a href="#" class="page-num" data-page="${totalPages}">${totalPages}</a>`
+            }
+
+            pageNumbers.innerHTML = pagesHTML
+
+            prevBtn.disabled = currentPage === 1
+            nextBtn.disabled = currentPage === totalPages
+
+            // Page number clicks
+            pageNumbers.querySelectorAll('.page-num').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault()
+                    changePage(parseInt(link.dataset.page) - currentPage)
+                })
+            })
+        }
+
+        // === MODALS ===
+        function openDetailModal(article) {
+            document.getElementById('modalTitle').textContent = article.title
+            document.getElementById('modalContent').innerHTML = `
+                <div class="article-meta" style="margin-bottom: 1.5rem;">
+                    <span class="date">${new Date(article.created_at).toLocaleDateString()}</span>
+                    <span class="badge type">${article.type}</span>
+                    <span class="badge access-${article.access.toLowerCase().replace(/ /g, '-')}">${article.access}</span>
+                </div>
+                <div style="margin-bottom: 1.5rem; line-height: 1.7;">${article.abstract}</div>
+                <div class="keywords" style="margin-bottom: 1.5rem;">
+                    ${article.keywords.split(',').map(k => `<span class="keyword">${k.trim()}</span>`).join('')}
+                </div>
+                <div class="citation" style="margin-bottom: 2rem;">${article.citation}</div>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View Article →</a>
+                    <button class="btn btn-secondary" onclick="copyCitation('${article.citation.replace(/'/g, "\\'")}')">Cite This</button>
+                </div>
+            `
+            document.getElementById('detailModal').classList.add('active')
+            document.body.style.overflow = 'hidden'
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('active')
+            document.body.style.overflow = ''
+        }
+
+        // === ADMIN FUNCTIONS ===
+        async function toggleAdminPanel() {
+            if (session) {
+                document.getElementById('adminPanel').classList.add('active')
+                document.body.style.overflow = 'hidden'
+                if (session.role === 'superadmin') {
+                    document.getElementById('adminsTab').style.display = 'block'
+                }
+                await fetchAllArticles()
+            } else {
+                document.getElementById('loginModal').classList.add('active')
+                document.body.style.overflow = 'hidden'
+            }
+        }
+
+        async function handleLogin() {
+            const username = document.getElementById('loginUsername').value.trim()
+            const password = document.getElementById('loginPassword').value
+            const loginBtn = document.getElementById('loginBtn')
+            const errorEl = document.getElementById('loginError')
+
+            if (!username || !password) {
+                showLoginError('Please fill in all fields')
+                return
+            }
+
+            loginBtn.disabled = true
+            loginBtn.textContent = 'Logging in...'
+
+            try {
+                const { data, error } = await loginAdmin(username, password)
+                
+                if (error || !data) {
+                    failedLogins++
+                    showLoginError('Invalid username or password')
+                    
+                    if (failedLogins >= 3) {
+                        const timeLeft = 30
+                        let countdown = timeLeft
+                        loginBtn.disabled = true
+                        loginBtn.textContent = `Try again in ${countdown}s`
+                        
+                        const interval = setInterval(() => {
+                            countdown--
+                            loginBtn.textContent = `Try again in ${countdown}s`
+                            if (countdown <= 0) {
+                                clearInterval(interval)
+                                loginBtn.disabled = false
+                                loginBtn.textContent = 'Login'
+                                failedLogins = 0
+                            }
+                        }, 1000)
+                    }
+                    return
+                }
+
+                saveSession(data)
+                document.getElementById('adminWelcome').textContent = `Welcome, ${data.username}!`
+                document.getElementById('adminsTab').style.display = data.role === 'superadmin' ? 'block' : 'none'
+                
+                closeLoginModal()
+                document.getElementById('adminPanel').classList.add('active')
+                showToast(`Welcome back, ${data.username}! 👋`, 'success')
+                
+            } catch (error) {
+                showLoginError('Login failed. Please try again.')
+            } finally {
+                loginBtn.disabled = false
+                loginBtn.textContent = 'Login'
+            }
+        }
+
+        function showLoginError(message) {
+            const errorEl = document.getElementById('loginError')
+            errorEl.textContent = message
+            errorEl.style.display = 'block'
+            document.querySelector('#loginModal .modal-content').classList.add('shake')
+            setTimeout(() => {
+                errorEl.style.display = 'none'
+                document.querySelector('#loginModal .modal-content').classList.remove('shake')
+            }, 3000)
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active')
+            document.getElementById('loginUsername').value = ''
+            document.getElementById('loginPassword').value = ''
+            document.getElementById('loginError').style.display = 'none'
+            failedLogins = 0
+            document.body.style.overflow = ''
+        }
+
+        function logout() {
+            clearSession()
+            closeAdminPanel()
+            showToast('Logged out successfully', 'success')
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminPanel').classList.remove('active')
+            document.body.style.overflow = ''
+        }
+
+        async function handleSaveDraft(status) {
+            const formData = getArticleFormData()
+            if (!formData) return
+
+            formData.status = status
+            formData.curated_by = 'Sage Spark Team'
+            formData.created_by = session?.username || 'Sage_Spark'
+
+            try {
+                showLoading('admin-content')
+                const { error } = await insertArticle(formData)
+                
+                if (error) throw error
+                
+                document.getElementById('articleForm').reset()
+                document.getElementById('keywordPreview').innerHTML = ''
+                showToast(status === 'published' ? 'Article published successfully!' : 'Draft saved successfully!', 'success')
+                
+                if (status === 'published') {
+                    await fetchArticles()
+                } else {
+                    await fetchAllArticles()
+                }
+            } catch (error) {
+                showToast('Failed to save article. Please try again.', 'error')
+            } finally {
+                hideLoading('admin-content')
+            }
+        }
+
+        function getArticleFormData() {
+            const title = document.getElementById('articleTitle').value.trim()
+            const url = document.getElementById('articleUrl').value.trim()
+            const abstract = document.getElementById('articleAbstract').value.trim()
+
+            if (!title || !url || !abstract) {
+                showToast('Please fill in all required fields (*)', 'error')
+                return null
+            }
+
+            return {
+                title,
+                url,
+                source: document.getElementById('articleSource').value,
+                type: document.getElementById('articleType').value,
+                topic: document.getElementById('articleTopic').value,
+                abstract,
+                keywords: document.getElementById('articleKeywords').value,
+                access: document.getElementById('articleAccess').value
+            }
+        }
+
+        function renderArticlesTable() {
+            const container = document.getElementById('articlesTableContainer')
+            const searchTerm = document.getElementById('articleSearch').value.toLowerCase()
+            
+            const filtered = allArticles.filter(article => 
+                article.title.toLowerCase().includes(searchTerm) ||
+                article.source.toLowerCase().includes(searchTerm)
+            )
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-600);">No articles found</div>'
+                return
+            }
+
+            container.innerHTML = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Source</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${filtered.map(article => createArticleTableRow(article)).join('')}
+                    </tbody>
+                </table>
+            `
+        }
+
+        function createArticleTableRow(article) {
+            const canDelete = session?.role !== 'editor'
+            const date = new Date(article.created_at).toLocaleDateString()
+            const statusClass = article.status === 'published' ? 'published' : 'draft'
+
+            return `
+                <tr>
+                    <td>${article.title}</td>
+                    <td>${article.source}</td>
+                    <td>${date}</td>
+                    <td>${article.type}</td>
+                    <td><span class="status-badge status-${statusClass}">${article.status}</span></td>
+                    <td class="table-actions">
+                        <button class="btn btn-sm btn-secondary" onclick="editArticle('${article.id}')">Edit</button>
+                        ${canDelete ? `<button class="btn btn-sm" style="background: #ef4444; color: white;" onclick="deleteArticleConfirm('${article.id}')">Delete</button>` : ''}
+                        <label class="switch">
+                            <input type="checkbox" ${article.status === 'published' ? 'checked' : ''} onchange="toggleArticleStatus('${article.id}', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                </tr>
+            `
+        }
+
+        async function updateAnalytics() {
+            try {
+                document.getElementById('totalPublished').textContent = allArticles.filter(a => a.status === 'published').length
+                document.getElementById('totalDrafts').textContent = allArticles.filter(a => a.status === 'draft').length
+
+                const admins = await fetchAdmins()
+                document.getElementById('totalAdmins').textContent = admins.length
+
+                // Type breakdown
+                const typeCounts = {}
+                allArticles.forEach(a => {
+                    typeCounts[a.type] = (typeCounts[a.type] || 0) + 1
+                })
+
+                const typeChart = document.getElementById('typeChart')
+                typeChart.innerHTML = Object.entries(typeCounts).map(([type, count]) => `
+                    <div style="margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                            <span>${type}</span>
+                            <span style="font-family: 'Source Sans 3', sans-serif; font-size: 0.85rem;">${count}</span>
+                        </div>
+                        <div class="chart">
+                            <div class="chart-bar" style="width: ${Math.min(100, (count / Math.max(...Object.values(typeCounts))) * 100)}%"></div>
+                        </div>
+                    </div>
+                `).join('')
+
+                // Recent articles
+                const recent = allArticles.slice(0, 3).map(a => `<div style="padding: 0.75rem 0; border-bottom: 1px solid var(--gray-200);"><strong>${a.title}</strong><br><small>${new Date(a.created_at).toLocaleDateString()}</small></div>`).join('')
+                document.getElementById('recentArticles').innerHTML = recent
+
+            } catch (error) {
+                console.error('Error updating analytics:', error)
+            }
+        }
+
+        // === UTILITY FUNCTIONS ===
+        function showLoading(containerId = 'articlesContainer') {
+            const container = document.getElementById(containerId)
+            container.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading...</p>
+                </div>
+            `
+        }
+
+        function hideLoading() {
+            // Animation handled in render functions
+        }
+
+        function showError(message) {
+            const container = document.getElementById('articlesContainer')
+            container.innerHTML = `
+                <div style="text-align: center; padding: 4rem 2rem; color: var(--gray-600);">
+                    <p>${message}</p>
+                    <button class="btn btn-primary" onclick="fetchArticles()">Retry</button>
+                </div>
+            `
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div')
+            toast.className = `toast ${type}`
+            toast.textContent = message
+            document.body.appendChild(toast)
+            
+            setTimeout(() => toast.classList.add('show'), 100)
+            setTimeout(() => {
+                toast.classList.remove('show')
+                setTimeout(() => toast.remove(), 300)
+            }, 4000)
+        }
+
+        function debounce(func, wait) {
+            let timeout
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout)
+                    func(...args)
+                }
+                clearTimeout(timeout)
+                timeout = setTimeout(later, wait)
+            }
+        }
+
+        function togglePasswordVisibility(e) {
+            const input = e.target.previousElementSibling
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password'
+            input.setAttribute('type', type)
+            e.target.textContent = type === 'password' ? '👁' : '🙈'
+        }
+
+        function updateKeywordPreview() {
+            const keywords = document.getElementById('articleKeywords').value
+            const preview = document.getElementById('keywordPreview')
+            const tags = keywords.split(',').map(k => k.trim()).filter(k => k)
+            preview.innerHTML = tags.map(tag => `<span style="background: var(--gray-100); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">${tag}</span>`).join('')
+        }
+
+        function getBookmarks() {
+            return JSON.parse(localStorage.getItem('bookmarks') || '[]')
+        }
+
+        function toggleBookmark(e, id) {
+            e.stopPropagation()
+            let bookmarks = getBookmarks()
+            const index = bookmarks.indexOf(id)
+            if (index > -1) {
+                bookmarks.splice(index, 1)
+            } else {
+                bookmarks.push(id)
+            }
+            localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
+            renderArticles()
+            showToast(index > -1 ? 'Removed from bookmarks' : 'Added to bookmarks')
+        }
+
+        window.copyCitation = function(citation) {
+            navigator.clipboard.writeText(citation).then(() => {
+                showToast('Citation copied!')
+            })
+        }
+
+        window.filterByKeyword = function(keyword) {
+            document.getElementById('mainSearch').value = keyword
+            filterArticles()
+        }
+
+        function removeFilter(value) {
+            document.querySelectorAll('.filter-option input').forEach(input => {
+                if (input.value === value) input.checked = false
+            })
+            updateFilters()
+        }
+
+        window.toggleArticleStatus = async function(id, isPublished) {
+            try {
+                const { error } = await updateArticle(id, { status: isPublished ? 'published' : 'draft' })
+                if (error) throw error
+                showToast('Status updated')
+                await fetchAllArticles()
+                if (isPublished) await fetchArticles()
+            } catch (error) {
+                showToast('Failed to update status', 'error')
+            }
+        }
+
+        window.editArticle = function(id) {
+            const article = allArticles.find(a => a.id === id)
+            if (article) {
+                document.getElementById('articleTitle').value = article.title
+                document.getElementById('articleUrl').value = article.url
+                document.getElementById('articleSource').value = article.source
+                document.getElementById('articleType').value = article.type
+                document.getElementById('articleTopic').value = article.topic
+                document.getElementById('articleAbstract').value = article.abstract
+                document.getElementById('articleKeywords').value = article.keywords
+                document.getElementById('articleAccess').value = article.access
+                updateKeywordPreview()
+                
+                // Switch to upload tab
+                document.querySelector('[data-tab="upload"]').click()
+            }
+        }
+
+        window.deleteArticleConfirm = function(id) {
+            if (confirm('Are you sure you want to delete this article?')) {
+                deleteArticleConfirmed(id)
+            }
+        }
+
+        async function deleteArticleConfirmed(id) {
+            try {
+                const { error } = await deleteArticle(id)
+                if (error) throw error
+                showToast('Article deleted')
+                await fetchAllArticles()
+                if (allArticles.find(a => a.id === id)?.status === 'published') {
+                    await fetchArticles()
+                }
+            } catch (error) {
+                showToast('Failed to delete article', 'error')
+            }
+        }
+
+        // === ADMIN TABS ===
+        function handleAdminTabClick(e) {
+            if (!e.target.classList.contains('admin-tab')) return
+            
+            document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.remove('active'))
+            e.target.classList.add('active')
+            
+            document.querySelectorAll('.admin-content > div').forEach(content => content.style.display = 'none')
+            document.getElementById(e.target.dataset.tab + 'Tab').style.display = 'block'
+            
+            if (e.target.dataset.tab === 'manage') {
+                fetchAllArticles()
+            } else if (e.target.dataset.tab === 'analytics') {
+                updateAnalytics()
+            } else if (e.target.dataset.tab === 'admins') {
+                loadAdminsTable()
+            }
+        }
+
+        async function handleAddAdmin(e) {
+            e.preventDefault()
+            
+            const username = document.getElementById('newUsername').value.trim()
+            const password = document.getElementById('newPassword').value
+            const confirmPassword = document.getElementById('confirmPassword').value
+            const role = document.getElementById('newRole').value
+
+            // Validation
+            if (password.length < 6) {
+                document.getElementById('passwordError').textContent = 'Password must be at least 6 characters'
+                return
+            }
+            
+            if (password !== confirmPassword) {
+                document.getElementById('confirmError').textContent = 'Passwords do not match'
+                return
+            }
+
+            try {
+                const exists = await checkUsernameExists(username)
+                if (exists) {
+                    document.getElementById('usernameError').textContent = 'Username already exists'
+                    return
+                }
+
+                const { error } = await addAdmin({
+                    username,
+                    password,
+                    role,
+                    added_by: session.username,
+                    added_on: new Date().toISOString()
+                })
+
+                if (error) throw error
+
+                document.getElementById('addAdminForm').reset()
+                document.getElementById('usernameError').textContent = ''
+                document.getElementById('passwordError').textContent = ''
+                document.getElementById('confirmError').textContent = ''
+                showToast('Admin added successfully!')
+                loadAdminsTable()
+
+            } catch (error) {
+                showToast('Failed to add admin', 'error')
+            }
+        }
+
+        async function loadAdminsTable() {
+            try {
+                const admins = await fetchAdmins()
+                const container = document.getElementById('adminsTableContainer')
+                
+                if (admins.length === 0) {
+                    container.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-600);">No admins found</div>'
+                    return
+                }
+
+                container.innerHTML = `
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Added By</th>
+                                <th>Added On</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${admins.map(admin => createAdminTableRow(admin)).join('')}
+                        </tbody>
+                    </table>
+                `
+            } catch (error) {
+                showToast('Failed to load admins', 'error')
+            }
+        }
+
+        function createAdminTableRow(admin) {
+            const isSelf = admin.username === 'Sage_Spark'
+            const roleClass = `role-${admin.role}`
+            
+            return `
+                <tr>
+                    <td>${admin.username}</td>
+                    <td><span class="status-badge ${roleClass}">${admin.role}</span></td>
+                    <td>${admin.added_by || 'System'}</td>
+                    <td>${new Date(admin.added_on).toLocaleDateString()}</td>
+                    <td>
+                        ${!isSelf ? `
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-secondary" onclick="resetAdminPassword('${admin.id}')">Reset Password</button>
+                                <button class="btn btn-sm" style="background: #ef4444; color: white;" onclick="deleteAdminConfirm('${admin.id}')">Delete</button>
+                            </div>
+                        ` : '<span style="color: var(--gray-500);">Protected</span>'}
+                    </td>
+                </tr>
+            `
+        }
+
+        // === GLOBAL EVENT HANDLERS ===
+        function handleEscapeKey(e) {
+            if (e.key === 'Escape') {
+                closeDetailModal()
+                closeLoginModal()
+                closeAdminPanel()
+            }
+        }
+
+        function changePage(delta) {
+            const totalPages = Math.ceil(filteredArticles.length / itemsPerPage)
+            const newPage = Math.max(1, Math.min(currentPage + delta, totalPages))
+            if (newPage !== currentPage) {
+                currentPage = newPage
+                renderArticles()
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+            }
+        }
+
+        function toggleView(e) {
+            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'))
+            e.target.classList.add('active')
+            currentView = e.target.dataset.view
+            renderArticles()
+        }
+
+        window.openRelatedModal = async function(topic) {
+            const related = articles.filter(a => a.topic === topic && a.id !== currentArticleId).slice(0, 3)
+            // Implementation for related articles modal
+            showToast(`${related.length} related articles found`)
+        }
+
+        // === INIT ON LOAD ===
+        window.addEventListener('load', init)
+    </script>
+</body>
+</html>
